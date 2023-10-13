@@ -6,4 +6,13 @@ resource "aws_instance" "addy" {
   tags = {
     Name = "first-instance"
   }
+  user_data = <<-EOF
+  #!/bin/bash
+  yum update -y
+  yum install httpd -y
+  systemctl enable httpd
+  systemctl start httpd
+  echo "hello world" > /var/www/html/index.html
+
+  EOF
 }
