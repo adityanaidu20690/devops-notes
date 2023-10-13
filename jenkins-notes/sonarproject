@@ -1,0 +1,9 @@
+#create asonarqube container
+#We should configure by clicking manage jenkins -->> configure global configuration enter sonarqube
+#https://github.com/adityanaidu20690/MSBuild_firstproject.git
+#in add build step >> execute sonarqube scanner
+sonar.projectKey=sonarqube
+sonar.login=admin
+sonar.password=admin
+sonar.sources=/var/lib/jenkins/workspace/sonarqube
+sonar.host.url=http://3.91.84.93:9090/

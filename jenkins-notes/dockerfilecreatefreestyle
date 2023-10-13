@@ -1,0 +1,12 @@
+rm -rf dockerimages
+mkdir dockerimages
+cd dockerimages
+cp /var/lib/jenkins/workspace/pipelineproject/gameoflife-web/target/gameoflife.war .
+touch Dockerfile
+cat<<EOT>> Dockerfile
+FROM tomcat:8.0.15-jre7
+ADD gameoflife.war /usr/local/tomcat/webapps
+CMD ["catalina.sh" , "run"]
+EOT
+sudo docker build -t tomcatserver .
+sudo docker run -itd --name tomcat -p 8082:8080 tomcatserver

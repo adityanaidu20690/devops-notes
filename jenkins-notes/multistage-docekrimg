@@ -1,0 +1,17 @@
+FROM centos:centos7 as builder
+RUN yum install git -y
+RUN git clone https://github.com/jenkins-docs/simple-java-maven-app.git
+#RUN cd /simple-java-maven-app && \
+#mvn package && \
+#mvn test
+
+#FROM openjdk:8-alpine
+FROM maven:3.6-alpine
+copy --from=builder /simple-java-maven-app/ /
+RUN pwd
+RUN ls
+#RUN cd /addy
+#RUN ls
+RUN mvn package
+RUN cd target
+CMD java -jar my-app-1.0-SNAPSHOT.jar

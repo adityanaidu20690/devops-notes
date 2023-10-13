@@ -1,0 +1,33 @@
+download jenkins
+create a new directory
+copy the directory from /var/lib/jenkins to your new directory
+stop jenkins service
+change the ownership to jenkins:
+chown jenkins:jenkins * by going to the directory
+usermod -d newdirectorypath jenkins
+commands:
+ jenkins --version
+    2  mkdir -p /addy/lib/jenkins
+    3  systemctl start jenkins.service
+    4  cat /var/lib/jenkins/secrets/initialAdminPassword
+    5  rm - rf /addy/lib/jenkins/
+    6  cd /addy/lib/
+    7  ll
+    8  rm -rf jenkins/
+    9  cp -rvp /var/lib/jenkins/ /addy/lib/
+   10  ll
+   11  chown -R jenkins:jenkins *
+   12  usermod -d /addy/lib/jenkins jenkins
+   13  systemctl stop jenkins.service
+   14  usermod -d /addy/lib/jenkins jenkins
+   15  systemctl -l status jenkins
+   16  /usr/lib/systemd/system/
+   17  cd /usr/lib/systemd/system/
+   18  ll -ltrh
+   19  vi jenkins.service
+   change the path in jenkins_home
+   and work_dir 
+   20  vi /etc/sysconfig/jenkins
+   change the jenkins_home
+   21  yum update -y && yum upgrade -y && yum upgrade jenkins
+   22  systemctl start jenkins&&systemctl enable jenkins
