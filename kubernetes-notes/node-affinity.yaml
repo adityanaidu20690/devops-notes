@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: addydep
+ labels:
+   app: addy
+spec:
+#specify the number of replicas
+ replicas: 2
+ selector:
+#the lable specified in the selector should match the label
+  matchLabels:
+   app: addy
+ template:
+#in template the lable should match to the metadata of the deployment
+  metadata:
+   labels:
+    app: addy
+  spec:
+   containers:
+#you can specify the name of the image
+   - image: nginx
+#you can give the name for the container
+     name: addy
+     ports:
+     - containerPort: 80
+   affinity:
+     nodeAffinity:
+       preferredDuringSchedulingIgnoredDuringExecution:
+       - weight: 1
+         preference:
+           matchExpressions:
+            - key: disk
+              operator: In
+              values:
+              - addy  

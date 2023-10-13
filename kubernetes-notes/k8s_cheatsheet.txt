@@ -1,0 +1,39 @@
+kubernetes cheatsheet
+#to check the node details
+kubectl get nodes
+#to check the node details with all the kernal version
+kubectl get nodes -o wide
+#this command shows the labels associated to the nodes
+kubectl get nodes --show-labels
+#Print a detailed description of the node
+kubectl describe node <node-name>
+#to start a pod
+kubectl run <podname> --image=<image-name>
+#to run a pod in dry run mode
+kubectl run <podname> --image=<image-name> --dry-run=client
+#to run a pod in dry run mode and also need the yaml fomat as output
+kubectl run <podname> --image=<image-name> --dry-run=client -o yaml
+#to check the pod status
+kubectl get pods
+#to check where the pods are scheduled
+kubectl get pods -o wide
+#Print a detailed description of the pod
+kubectl describe pod <node-name>
+#create a network service using cli
+kubectl create service <type-of-service> <name-of-service> --tcp=<port>:<targetPort> 
+#when you create a service make sure the label of the pods and the label of service is the same
+############to create a lable for the node########
+kubectl lable nodes <node-name> <key=value>
+#######to delete the lable of the node or the pod#########
+kubectl lable nodes <node-name> key-
+example: kubectl label pod addydep-8484f75bdf-8zk9v disk-
+#####to create a node selector we have to add a section as nodeselector in the pod file
+#############node affinity##########
+there are two type of node affinity
+1)soft rule
+ preferredDuringSchedulingIgnoredDuringExecution
+In this rule if the constraint is not met then also the pod will not go to pending state and will be scheduled the node
+2)hard rule
+requiredDuringSchedulingIgnoredDuringExecution
+In this rule if the constraint is met then only the pod will be scheduled otherwise it will be in pending state.
+

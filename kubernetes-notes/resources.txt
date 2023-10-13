@@ -1,0 +1,24 @@
+necessary referenec documents for:
+1) Deployment - 
+2) HPA - https://k21academy.s3.us-west-2.amazonaws.com/Docker+%26+Kubernetes/Activity+Guide/Module+6/AG_03_Deployment_and_Configuring_Autoscaling_For_Stateless_Application_ed7.pdf
+---------HPA----------------
+1. Autoscaling in Kubernetes
+https://kubernetes.io/blog/2016/07/autoscaling-in-kubernetes/
+2. Bootstrapping clusters with kubeadm
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/
+3. Troubleshooting kubeadm
+https://kubernetes.io/docs/setup/productionenvironment/tools/kubeadm/troubleshooting-kubeadm/
+4. Using kubectl to Create a Deployment
+https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/deployintro/
+5. Cluster Networking
+https://kubernetes.io/docs/concepts/cluster-administration/networking/
+2.2 Linux Commands and VIM Commands
+1. Basic Linux Commands
+ https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners
+ https://www.hostinger.in/tutorials/linux-commands
+2. Basic VIM Commands
+https://coderwall.com/p/adv71w/basic-vim-commands-for-getting-started
+3. Popular VIM Commands
+https://www.keycdn.com/blog/vim-commands
+3) rollouts - https://k21academy.s3.us-west-2.amazonaws.com/Docker+%26+Kubernetes/Activity+Guide/Module+6/AG_03_Deployment_and_Configuring_Autoscaling_For_Stateless_Application_ed7.pdf
+4) networking

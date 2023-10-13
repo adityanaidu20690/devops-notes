@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: addy
+ labels:
+  run: addy
+spec:
+ replicas: 3
+ selector:
+  matchLabels:
+   run: addy
+ template:
+  metadata:
+   labels:
+    run: addy
+  spec:
+   containers:
+   - image: nginx
+     name: addy
+     ports:
+     - containerPort: 80
+   affinity:
+    nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+         - key: disk
+           operator: In
+           values:
+           - addy
+
+###########nodeaffinity for a pod##################
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: add
+  name: add
+spec:
+  containers:
+  - image: nginx
+    name: add
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+          - key: disk
+            operator: In
+            values:
+            - addy
+              

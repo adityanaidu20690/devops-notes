@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: addy
+ labels:
+  run: addy
+spec:
+ replicas: 3
+ selector:
+  matchLabels:
+   run: addy
+ template:
+  metadata:
+   labels:
+    run: addy
+  spec:
+   containers:
+   - image: nginx
+     name: addy
+     ports:
+     - containerPort: 80
+   tolerations:
+   - key: "disk"
+     operator: "Equal"
+     value: "addy"
+     effect: "NoSchedule"
+   affinity:
+    nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+       - matchExpressions:
+          - key: disk
+            operator: In
+            values:
+            - addy

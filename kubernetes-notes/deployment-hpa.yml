@@ -1,0 +1,28 @@
+#for HPA we will add resources in the deployment file
+#under resources requests is the minimum space and minit is the maximum space
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: addydep
+ labels:
+   run: addy
+spec:
+ replicas: 2
+ selector:
+  matchLabels:
+   run: addy
+ template:
+  metadata:
+   labels:
+    run: addy
+  spec:
+   containers:
+   - image: nginx
+     name: addy
+     resources:
+      limits: 
+       cpu: 300m
+       memory: 200Mi
+      requests:
+       cpu: 150m
+       memory: 100Mi

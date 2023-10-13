@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: addysvc
+#the lable of the service and the deployment must be same than only the 
+ labels:
+   run: addy
+spec:
+#we can change the type of the service under type
+ type: NodePort
+ selector:
+  run: addy
+ ports:
+  - port: 80
+    targetPort: 80 
+
+
+
+# for changing the service of the cluster we have to change the type to our desired service
