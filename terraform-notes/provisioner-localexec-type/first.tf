@@ -13,6 +13,7 @@ resource "aws_instance" "addy" {
     command = "echo hello > test.txt"  #we are using the echo command and we are transferring the data to a new file.
   }
   provisioner "local-exec" {
+    on_failure = continue
     command = "echo ${self.public_ip} > test2.txt" #we are finding the IP address of the machine created.
   }
   provisioner "local-exec" {

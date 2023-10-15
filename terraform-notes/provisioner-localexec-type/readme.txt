@@ -26,3 +26,12 @@ So here this provisioner will executed when we use terraform destroy command.
 
 We also can specify the name of the environment by using the environment block.
 the attribute of envname can be speified.
+
+
+ provisioner "local-exec" {
+    on_failure = continue
+    command = "echo ${self.public_ip} > test2.txt" #we are finding the IP address of the machine created.
+  }
+If there is any error in the command given in the provisioner then the execution of the code is stopped.
+to avoid it we will use on_failure attribute. under on_failure attribute we will mention as continue which mean that if the provisioner fails
+the code will continue execution.
