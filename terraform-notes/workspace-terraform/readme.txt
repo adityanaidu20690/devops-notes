@@ -12,3 +12,6 @@ terraform.tfvars
 dev-terraform.tfvars
 
 to use the tfvars file we use the command terraform apply -var-file=tfvar file
+
+
+terraform.tf file is used to give the version of terraform and version of aws provider
