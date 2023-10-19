@@ -9,12 +9,12 @@ resource "aws_instance" "addy" {
 
 }
 
-# terraform {
-#   backend "s3" {
-#     dynamodb_table = "addy-xlr8"
-#     bucket = "addy-bucket-786"
-#     key    = "terraform.tfstate"
-#     region = "us-east-1"
+terraform {
+  backend "s3" {
+    dynamodb_table = "addy-xlr8"
+    bucket = "addy-bucket-786"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
     
-#   }
-# } 
+  }
+} 
