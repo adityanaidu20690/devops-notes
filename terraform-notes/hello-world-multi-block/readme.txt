@@ -1,0 +1,1 @@
+In this project we have tried to use multiple output blocks.
