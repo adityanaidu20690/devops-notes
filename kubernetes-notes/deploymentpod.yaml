@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: dep-addy
+  labels:
+    app: depaddy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: depaddy
+  template:
+    metadata:
+      labels:
+        app: depaddy
+    spec:
+      containers:
+      - image: nginx
+        name: addynginx

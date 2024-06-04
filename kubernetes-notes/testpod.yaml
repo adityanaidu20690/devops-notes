@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: addy
+  labels: 
+    app: addy-spec
+spec:
+  containers:
+  - image: httpd
+    name: addyhttpd
+    ports:
+      - containerPort: 80
