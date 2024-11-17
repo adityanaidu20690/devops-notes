@@ -1,0 +1,27 @@
+trigger:
+  paths:
+    include:
+      - 'project-2/*'
+      
+pool:
+  vmImage: ubuntu-latest
+
+
+steps:
+# Step 1: Checkout code
+- script: |
+    # Enable sparse checkout and pull only the project-2 folder
+    git config core.sparseCheckout true
+    echo "project-2/*" >> .git/info/sparse-checkout  
+    git checkout HEAD  
+  displayName: 'Sparse Checkout project-2 folder'
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'project-2/pom.xml'  # Path to pom.xml for project-2
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'  # Use Java 8
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
