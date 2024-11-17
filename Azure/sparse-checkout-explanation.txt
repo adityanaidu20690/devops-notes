@@ -1,0 +1,67 @@
+Sparse Checkout Explanation:
+Sparse checkout is a Git feature that allows you to checkout and work with only a subset of files in a repository instead of the entire repository. This is especially useful in monorepos where you might only need to work on or build a specific subdirectory of the repository.
+
+In your case, you're using sparse checkout to pull only the files from the project-2 folder, which means that even though the entire repository may be large, your build will only be working with the necessary files from project-2.
+
+Explanation of the Script:
+yaml
+Copy code
+- script: |
+    # Enable sparse checkout and pull only the project-2 folder
+    git config core.sparseCheckout true
+    echo "project-2/*" >> .git/info/sparse-checkout  
+    git checkout HEAD  
+  displayName: 'Sparse Checkout project-2 folder'
+1. Enable sparse checkout:
+bash
+Copy code
+git config core.sparseCheckout true
+This command enables sparse checkout in Git. By default, when you clone a repository, Git checks out all the files. Sparse checkout allows you to limit this behavior to specific files or directories in the repository, which helps save time and resources if you're only interested in a part of the codebase.
+
+core.sparseCheckout is a Git configuration that, when set to true, enables this feature for the repository.
+2. Configure sparse checkout:
+bash
+Copy code
+echo "project-2/*" >> .git/info/sparse-checkout
+This command tells Git which files or directories to include in the sparse checkout.
+
+echo "project-2/*" >> .git/info/sparse-checkout: This appends the directory project-2/* to the sparse-checkout configuration file (.git/info/sparse-checkout).
+The * means that you're including everything inside the project-2 directory (all files and subdirectories under project-2).
+This ensures that only the files in the project-2 folder (and its subdirectories) are checked out, excluding all other folders/files in the repository.
+
+3. Checkout the code:
+bash
+Copy code
+git checkout HEAD
+After configuring sparse checkout, this command tells Git to checkout the files defined by the sparse-checkout configuration.
+
+git checkout HEAD checks out the current commit (the latest commit on the branch you're working on) but only the files specified in the sparse checkout configuration (project-2/*).
+This results in your workspace being populated with only the contents of the project-2 folder, and no other files from the repository.
+
+What happens after this step?
+After this step, the only files in your working directory will be the ones inside the project-2 folder. All other files from the repository (like aditya-project, project-3, or any other files/folders) will be excluded from the checkout.
+
+This is useful because it reduces the amount of data that needs to be processed, speeds up the pipeline, and focuses the build process only on the necessary project folder.
+
+Why is this important in your pipeline?
+In a monorepo (a single repository containing multiple projects or submodules), you might have multiple projects within the same repo. Using sparse checkout allows you to avoid fetching or checking out files from projects that don't need to be built in a specific pipeline run.
+
+Efficiency: You're reducing the amount of data fetched from the repository, which can significantly speed up the pipeline, especially if your repository contains many projects or large files.
+Targeted builds: You're ensuring that the build process only works with the specific folder (project-2 in this case) that has changed, making the pipeline more efficient and focused.
+Example Scenario:
+Imagine you have a monorepo with several projects like this:
+
+perl
+Copy code
+my-project/
+  ├── aditya-project/
+  ├── project-2/
+  └── project-3/
+If you only want to trigger a pipeline for changes in project-2, using sparse checkout allows you to:
+
+Check out only the files under project-2/, ignoring aditya-project/ and project-3/.
+Run Maven only on project-2, speeding up the process since you don't need to build the other projects.
+Conclusion:
+Sparse checkout is a powerful Git feature that allows you to check out only specific parts of your repository.
+In the pipeline, you're using sparse checkout to only check out the files from project-2 (avoiding the other projects in the repo) before triggering the Maven build process.
+This makes the pipeline more efficient, especially in a monorepo structure with multiple projects, as it avoids unnecessary checks and builds for unrelated parts of the repo.
