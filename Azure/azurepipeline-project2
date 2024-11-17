@@ -1,27 +1,44 @@
 trigger:
   paths:
     include:
-      - 'project-2/*'
-      
-pool:
-  vmImage: ubuntu-latest
+      - 'project-2/*'  # Only trigger the pipeline if changes are made in the project-2 folder
 
+pool:
+  vmImage: 'ubuntu-latest'
 
 steps:
 # Step 1: Checkout code
 - script: |
     # Enable sparse checkout and pull only the project-2 folder
     git config core.sparseCheckout true
-    echo "project-2/*" >> .git/info/sparse-checkout  
-    git checkout HEAD  
+    echo "project-2/*" >> .git/info/sparse-checkout  # Only include files inside the project-2 folder
+    git checkout HEAD  # Checkout the files for `project-2`
   displayName: 'Sparse Checkout project-2 folder'
-- task: Maven@3
+
+# Step 2: Use Maven task with Java 11
+- task: Maven@4
   inputs:
     mavenPomFile: 'project-2/pom.xml'  # Path to pom.xml for project-2
-    mavenOptions: '-Xmx3072m'
+    mavenOptions: '-Xmx3072m'  # Optional: Increase memory for the Maven build process
     javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'  # Use Java 8
-    jdkArchitectureOption: 'x64'
+    jdkVersionOption: '1.11'  # Use Java 11
+    jdkArchitectureOption: 'x64'  # Architecture for JDK
     publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'  # Location for test results if available
+    goals: 'package'  # Ensure Maven is packaging the project correctly
+
+# Step 3: Copy the generated .jar file from the target folder to the artifact staging directory
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'project-2/target'  # Correct path to the target directory where the .jar file is generated
+    Contents: '**/*.jar'  # Copy all .jar files in the target folder
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'  # This is where the .jar will be copied for publishing
+  displayName: 'Copy .jar file to artifact staging directory'
+
+# Step 4: Publish the artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'  # Path to the artifact staging directory where the .jar file is copied
+    ArtifactName: 'maigolab_hello-1.0.0.jar'  # Artifact name
+    publishLocation: 'Container'  # Publish the artifact to the pipeline's container
+  displayName: 'Publish build artifact'
