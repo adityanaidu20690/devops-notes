@@ -1,7 +1,7 @@
 trigger:
   paths:
     include:
-      - 'project-2/*'  # Only trigger the pipeline if changes are made in the project-2 folder
+      - 'project-3/*'  # Only trigger the pipeline if changes are made in the project-2 folder
 
 pool:
   vmImage: ubuntu-latest
@@ -9,16 +9,16 @@ pool:
 steps:
 # Step 1: Checkout code
 - script: |
-    # Enable sparse checkout and pull only the project-2 folder
+    # Enable sparse checkout and pull only the project-3 folder
     git config core.sparseCheckout true
-    echo "project-2/*" >> .git/info/sparse-checkout  
+    echo "project-3/*" >> .git/info/sparse-checkout  
     git checkout HEAD  
-  displayName: 'Sparse Checkout project-2 folder'
+  displayName: 'Sparse Checkout project-3 folder'
 
 # Step 2: Use Maven task with Java 11
 - task: Maven@4 #updated the maven version from 3 to 4
   inputs:
-    mavenPomFile: 'project-2/pom.xml'  # Path to pom.xml for project-2
+    mavenPomFile: 'project-3/pom.xml'  # Path to pom.xml for project-2
     mavenOptions: '-Xmx3072m'  # Optional: Increase memory for the Maven build process
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.11'  # Java 11
