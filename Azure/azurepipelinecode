@@ -1,0 +1,28 @@
+trigger:
+  paths:
+    include:
+      - 'aditya-project/*'  # Only trigger the pipeline if changes are made in the aditya-project folder
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+# Step 1: Checkout code
+- script: |
+    # Enable sparse checkout and pull only the aditya-project folder
+    git config core.sparseCheckout true
+    echo "aditya-project/*" >> .git/info/sparse-checkout  # Only include files inside the aditya-project folder
+    git checkout HEAD  # Checkout the files for `aditya-project`
+  displayName: 'Sparse Checkout aditya-project folder'
+
+# Step 2: Maven build
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'aditya-project/pom.xml'  # Path to the pom.xml inside the aditya-project folder
+    mavenOptions: '-Xmx3072m'  # Optional: Increase memory for the Maven build process
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'  # Java 8
+    jdkArchitectureOption: 'x64'  # Architecture for JDK
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'  # Location for test results if available
+    goals: 'package'  # Maven build goal (can be changed to 'clean install' or other goals if needed)
